@@ -1,6 +1,88 @@
 package linkedlist;
 
+import java.beans.Beans;
+import java.util.Stack;
+
 public class SigleLinkedListDemo {
+	
+	//1）	求单链表有效节点的个数
+	public static  int getLength(HeroNode head) {
+		
+		if (head.next==null) {
+			return 0;
+		}
+		
+		int count=0;
+		HeroNode temp=head.next;
+		while(temp!=null) {
+			count++;
+			temp=temp.next;
+		}
+		
+		return count;
+	}
+	
+	//2）	查找单链表的倒数第k个节点
+	public static HeroNode getLastIndexNode(HeroNode head,int index) {
+		//链表为空，返回null
+		if (head.next==null) {
+			return null;
+		}
+		int size=getLength(head);
+		if (index<=0||index>size) {
+			return null;
+		}
+		HeroNode temp=head.next;
+		
+		for(int i=0;i<size-index;i++) {
+			temp=temp.next;
+		}
+		
+		return temp;
+		
+	}
+	
+	//3）	单链表的反转
+	//头插法
+	public static void reverseList(HeroNode head) {
+		if (head.next==null) {
+			System.out.println("链表为空...");
+			return;
+		}
+		//遍历传入链表的遍历变量
+		HeroNode temp=head.next;
+		HeroNode reverseHead=new HeroNode(0, "", "");
+		while (temp!=null) {
+			HeroNode insertNode=temp;//此处注意java引用的复制，指向堆中同一地址，下面的修改导致temp变为空
+			//所以在修改之前先移动temp
+			//链表后移
+			temp=temp.next;
+			//头插法
+			insertNode.next=reverseHead.next;
+			reverseHead.next=insertNode;
+			
+		}
+		head.next=reverseHead.next;
+		
+	}
+	
+	//4）	从尾到头打印单链表
+	public static void reversePrint(HeroNode head) {
+		if (head.next==null) {
+			return;
+		}
+		Stack<HeroNode> stack=new Stack<HeroNode>();
+		HeroNode temp=head.next;
+		while(temp!=null) {
+			stack.push(temp);
+			temp=temp.next;
+		}
+		while(stack.size()>0) {
+			System.out.println(stack.pop());
+		}
+		
+		
+	}
 
 	public static void main(String[] args) {
 		//创建节点
@@ -22,11 +104,20 @@ public class SigleLinkedListDemo {
 		sigleLinkedList.addByOrder(hero2);
 		sigleLinkedList.addByOrder(hero4);
 		sigleLinkedList.list();
-		
-		sigleLinkedList.update(new HeroNode(4, "林chong", "豹子头"));
-		System.out.println("按照编号修改后：");
+//		
+//		sigleLinkedList.update(new HeroNode(4, "林chong", "豹子头"));
+//		System.out.println("按照编号修改后：");
+//		sigleLinkedList.list();
+//		//sigleLinkedList.update(new HeroNode(5, "林chong", "豹子头"));
+//		System.out.print("有效节点个数为：");
+//		System.out.println(getLength(sigleLinkedList.getHead()));
+//		System.out.print("倒数第k个节点为：");
+//		System.out.println(getLastIndexNode(sigleLinkedList.getHead(), 2));
+		System.out.println("从尾到头打印单链表：");
+		reversePrint(sigleLinkedList.getHead());
+		System.out.println("反转链表为：");
+		reverseList(sigleLinkedList.getHead());
 		sigleLinkedList.list();
-		sigleLinkedList.update(new HeroNode(5, "林chong", "豹子头"));
 	}
 
 }
@@ -35,6 +126,12 @@ class SigleLinkedList{
 	
 	//初始化一个头结点，头节点不要动，不存放具体数据
 	private HeroNode head =new HeroNode(0, "", "");
+	
+	public HeroNode getHead() {
+		return head;
+	}
+	
+	
 	//添加节点到单向链表，找到当前链表的最后节点，将最后节点的next域指向新的节点
 	public void add(HeroNode heroNode) {
 		//头结点不能动，需要一个辅助变量
