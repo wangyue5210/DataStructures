@@ -4,7 +4,7 @@ public class Calculator {
 
 	public static void main(String[] args) {
 		//表达式
-		String expression="70+2*6-4";
+		String expression="7-2*6+4";
 		//创建两个栈，一个数字栈，一个符号栈
 		ArrayStack2 numStack=new ArrayStack2(10);
 		ArrayStack2 operStack=new ArrayStack2(10);
